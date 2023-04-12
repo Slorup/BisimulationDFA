@@ -166,11 +166,58 @@ def load_solution(name):
             transitions = {('s0', 'a'): 's1', ('s0', 'b'): 's3', ('s1', 'a'): 's0', ('s1', 'b'): 's2', ('s3', 'a'): 's2',
                            ('s3', 'b'): 's0', ('s2', 'a'): 's3', ('s2', 'b'): 's1'}
             return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
+        case "larger_than_5_binary":
+            language_text = "L = {w \in {1,0}* | w is a binary number and is larger than 5}"
+            alphabet = ['1', '0']
+            states = ['a', 'b', 'c', 'd', 'f', 'e']
+            initial_state = "a"
+            final_states = ['f']
+            transitions = {('a', '1'): 'b', ('a', '0'): 'a', ('b', '1'): 'c', ('b', '0'): 'd', ('c', '1'): 'f', ('c', '0'): 'f',
+                           ('d', '1'): 'e', ('d', '0'): 'e', ('f', '1'): 'f', ('f', '0'): 'f', ('e', '1'): 'f', ('e', '0'): 'f'}
+            return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
+        case "num_as_divisible_by_3":
+            language_text = "L = {w \in {1,0}* | the number of 0's in w is a multiple of 3}"
+            alphabet = ['1', '0']
+            states = ['s0', 's1', 's2']
+            initial_state = "s0"
+            final_states = ['s0']
+            transitions = {('s0', '1'): 's0', ('s0', '0'): 's1', ('s1', '1'): 's1', ('s1', '0'): 's2', ('s2', '1'): 's2',
+                           ('s2', '0'): 's0'}
+            return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
+        case "a_followed_by_1_or_3_bs":
+            language_text = "L = {w \in {a,b}* | each a is followed by exactly 1 or 3 b's}"
+            alphabet = ['a', 'b']
+            states = ['s0', 's1', 's2', 's5', 's3', 's4']
+            initial_state = "s0"
+            final_states = ['s0', 's2']
+            transitions = {('s0', 'a'): 's1', ('s0', 'b'): 's0', ('s1', 'a'): 's5', ('s1', 'b'): 's2', ('s2', 'a'): 's1',
+                           ('s2', 'b'): 's3', ('s5', 'a'): 's5', ('s5', 'b'): 's5', ('s3', 'a'): 's5', ('s3', 'b'): 's4',
+                           ('s4', 'a'): 's1', ('s4', 'b'): 's5'}
+            return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
+        case "even_end_aa_odd_end_aba":
+            language_text = "L = {w \in {a,b}* | either |w| is even and ends with 'aa' or |w| is odd and ends with 'aba'}"
+            alphabet = ['a', 'b']
+            states = ['ol', 'ou', 'al', 'au', 'abl', 'aal', 'abau']
+            initial_state = "ol"
+            final_states = ['aal', 'abau']
+            transitions = {('ol', 'a'): 'au', ('ol', 'b'): 'ou', ('ou', 'a'): 'al', ('ou', 'b'): 'ol', ('al', 'a'): 'au',
+                           ('al', 'b'): 'ou', ('au', 'a'): 'aal', ('au', 'b'): 'abl', ('abl', 'a'): 'abau', ('abl', 'b'): 'ou',
+                           ('aal', 'a'): 'au', ('aal', 'b'): 'ou', ('abau', 'a'): 'aal', ('abau', 'b'): 'abl'}
+            return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
+        case "start_end_same_symbol_abc":
+            language_text = "L = {w \in {a,b}* | the first symbol of w equals the last symbol of w or w is the empty string}"
+            alphabet = ['a', 'b', 'c']
+            states = ['s0', 'sb', 'sb0', 'sc', 'sc0', 'sa', 'sa0']
+            initial_state = "s0"
+            final_states = ['s0', 'sb', 'sc', 'sa']
+            transitions = {('s0', 'a'): 'sa', ('s0', 'b'): 'sb', ('s0', 'c'): 'sc', ('sb', 'a'): 'sb0', ('sb', 'b'): 'sb',
+                           ('sb', 'c'): 'sb0', ('sb0', 'a'): 'sb0', ('sb0', 'b'): 'sb', ('sb0', 'c'): 'sb0', ('sc', 'a'): 'sc0',
+                           ('sc', 'b'): 'sc0', ('sc', 'c'): 'sc', ('sc0', 'a'): 'sc0', ('sc0', 'b'): 'sc0', ('sc0', 'c'): 'sc',
+                           ('sa', 'a'): 'sa', ('sa', 'b'): 'sa0', ('sa', 'c'): 'sa0', ('sa0', 'a'): 'sa', ('sa0', 'b'): 'sa0',
+                           ('sa0', 'c'): 'sa0'}
+            return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
 
-        #TODO: valid regular expressions (or arithmetric)
-
-        #TODO: All numbers larger that some constant (in binary)
-
+    #TODO: valid regular expressions (or arithmetric)
         #TODO: L = {xyz \in {a,b}* | xyz contains 'ab' and xz does not contain 'ab' and |y| = 1}
     return None
 
@@ -188,7 +235,7 @@ if __name__ == '__main__':
     if solution_dfa is None:
         print("Invalid solution name")
         exit()
-    dfa = read_input_dfa(["1", "0"])
+    dfa = read_input_dfa(["a", "b", "c"])
     print_dfa_text(dfa)
     is_bisim = dfs(dfa.initial_state, solution_dfa.initial_state, dfa, solution_dfa, [])
     print("Bisimulation: " + str(is_bisim))
