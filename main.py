@@ -218,6 +218,7 @@ def load_solution(name):
             return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
         case "substring_len_3_has_exactly_two_as":
             language_text = "L = {w \in {a,b}* | \\forall_x,y,z . ((w = xyz and |y| = 3) => |y|_a = 2)}"
+            #every subword with length 3 has exactly two a’s.
             alphabet = ['a', 'b']
             states = ['s0', 'sb', 'sa', 'sab', 'sg', 'sba', 'sbb', 'saa']
             initial_state = "s0"
@@ -229,6 +230,7 @@ def load_solution(name):
             return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
         case "num_aba_plus_1_equals_num_b":
             language_text = "L = {w \in {a,b}* | |w|_aba + 1 = |w|_b}"
+            #the number of occurrences of aba is one less than the number of occurrences of b.
             alphabet = ['a', 'b']
             states = ['s0', 's3', 's1', 's2', 's4', 's6', 's5']
             initial_state = "s0"
@@ -239,6 +241,7 @@ def load_solution(name):
             return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
         case "num_bs_right_of_a_is_even":
             language_text = "L = {w \in {a,b}* | \\forall_x,y . (w = xay => |y|_b is even)}"
+            #the right of each occurrence of a there is an even number of b’s.
             alphabet = ['a', 'b']
             states = ['s0', 's1', 's2', 's3']
             initial_state = "s0"
