@@ -85,7 +85,7 @@ def read_input_dfa(alphabet):
 
 def load_solution(name):
     match name:
-        case "binary_divisible_3":
+        case "binary_divisible_3": #Can be solved with 3 states instead
             langauge_text = "L = {w \in {1,0}* | w is a binary number and divisible by 3 or w is the empty string}"
             alphabet = ['1', '0']
             states = ['a', 'd', 'b', 'c', 'e', 'f']
@@ -231,11 +231,11 @@ def print_dfa_text(dfa):
 
 
 if __name__ == '__main__':
-    solution_dfa = load_solution("binary_representation_of_even_natural_number")
+    solution_dfa = load_solution("contains_substring_01")
     if solution_dfa is None:
         print("Invalid solution name")
         exit()
-    dfa = read_input_dfa(["a", "b", "c"])
+    dfa = read_input_dfa(solution_dfa.alphabet)
     print_dfa_text(dfa)
     is_bisim = dfs(dfa.initial_state, solution_dfa.initial_state, dfa, solution_dfa, [])
     print("Bisimulation: " + str(is_bisim))
