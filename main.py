@@ -175,7 +175,7 @@ def load_solution(name):
             transitions = {('a', '1'): 'b', ('a', '0'): 'a', ('b', '1'): 'c', ('b', '0'): 'd', ('c', '1'): 'f', ('c', '0'): 'f',
                            ('d', '1'): 'e', ('d', '0'): 'e', ('f', '1'): 'f', ('f', '0'): 'f', ('e', '1'): 'f', ('e', '0'): 'f'}
             return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
-        case "num_as_divisible_by_3":
+        case "num_0s_divisible_by_3":
             language_text = "L = {w \in {1,0}* | the number of 0's in w is a multiple of 3}"
             alphabet = ['1', '0']
             states = ['s0', 's1', 's2']
@@ -189,7 +189,7 @@ def load_solution(name):
             alphabet = ['a', 'b']
             states = ['s0', 's1', 's2', 's5', 's3', 's4']
             initial_state = "s0"
-            final_states = ['s0', 's2']
+            final_states = ['s0', 's2', 's4']
             transitions = {('s0', 'a'): 's1', ('s0', 'b'): 's0', ('s1', 'a'): 's5', ('s1', 'b'): 's2', ('s2', 'a'): 's1',
                            ('s2', 'b'): 's3', ('s5', 'a'): 's5', ('s5', 'b'): 's5', ('s3', 'a'): 's5', ('s3', 'b'): 's4',
                            ('s4', 'a'): 's1', ('s4', 'b'): 's5'}
@@ -216,9 +216,42 @@ def load_solution(name):
                            ('sa', 'a'): 'sa', ('sa', 'b'): 'sa0', ('sa', 'c'): 'sa0', ('sa0', 'a'): 'sa', ('sa0', 'b'): 'sa0',
                            ('sa0', 'c'): 'sa0'}
             return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
+        case "substring_len_3_has_exactly_two_as":
+            language_text = "L = {w \in {a,b}* | \\forall_x,y,z . ((w = xyz and |y| = 3) => |y|_a = 2)}"
+            #every subword with length 3 has exactly two a’s.
+            alphabet = ['a', 'b']
+            states = ['s0', 'sb', 'sa', 'sab', 'sg', 'sba', 'sbb', 'saa']
+            initial_state = "s0"
+            final_states = ['s0', 'sb', 'sa', 'sab', 'sba', 'sbb', 'saa']
+            transitions = {('s0', 'a'): 'sa', ('s0', 'b'): 'sb', ('sb', 'a'): 'sba', ('sb', 'b'): 'sbb', ('sa', 'a'): 'saa',
+                           ('sa', 'b'): 'sab', ('sab', 'a'): 'sba', ('sab', 'b'): 'sg', ('sg', 'a'): 'sg', ('sg', 'b'): 'sg',
+                           ('sba', 'a'): 'saa', ('sba', 'b'): 'sg', ('sbb', 'a'): 'sg', ('sbb', 'b'): 'sg', ('saa', 'a'): 'sg',
+                           ('saa', 'b'): 'sab'}
+            return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
+        case "num_aba_plus_1_equals_num_b":
+            language_text = "L = {w \in {a,b}* | |w|_aba + 1 = |w|_b}"
+            #the number of occurrences of aba is one less than the number of occurrences of b.
+            alphabet = ['a', 'b']
+            states = ['s0', 's3', 's1', 's2', 's4', 's6', 's5']
+            initial_state = "s0"
+            final_states = ['s3', 's2', 's4']
+            transitions = {('s0', 'a'): 's1', ('s0', 'b'): 's3', ('s3', 'a'): 's4', ('s3', 'b'): 's6', ('s1', 'a'): 's1',
+                           ('s1', 'b'): 's2', ('s2', 'a'): 's1', ('s2', 'b'): 's6', ('s4', 'a'): 's4', ('s4', 'b'): 's5',
+                           ('s6', 'a'): 's6', ('s6', 'b'): 's6', ('s5', 'a'): 's4', ('s5', 'b'): 's6'}
+            return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
+        case "num_bs_right_of_a_is_even":
+            language_text = "L = {w \in {a,b}* | \\forall_x,y . (w = xay => |y|_b is even)}"
+            #the right of each occurrence of a there is an even number of b’s.
+            alphabet = ['a', 'b']
+            states = ['s0', 's1', 's2', 's3']
+            initial_state = "s0"
+            final_states = ['s0', 's1']
+            transitions = {('s0', 'a'): 's1', ('s0', 'b'): 's0', ('s1', 'a'): 's1', ('s1', 'b'): 's2', ('s2', 'a'): 's3',
+                           ('s2', 'b'): 's1', ('s3', 'a'): 's3', ('s3', 'b'): 's3'}
+            return DFA(alphabet, states, initial_state, final_states, transitions, language_text)
 
     #TODO: valid regular expressions (or arithmetric)
-        #TODO: L = {xyz \in {a,b}* | xyz contains 'ab' and xz does not contain 'ab' and |y| = 1}
+    #TODO: L = {xyz \in {a,b}* | xyz contains 'ab' and xz does not contain 'ab' and |y| = 1}
     return None
 
 def print_dfa_text(dfa):
@@ -231,7 +264,7 @@ def print_dfa_text(dfa):
 
 
 if __name__ == '__main__':
-    solution_dfa = load_solution("contains_substring_01")
+    solution_dfa = load_solution("even_end_aa_odd_end_aba")
     if solution_dfa is None:
         print("Invalid solution name")
         exit()
